@@ -1,5 +1,8 @@
 # vue-bar-chart
 
+![task1.jpg](img/task1.jpg)
+![task2.jpg](img/task2.jpg)
+
 ## Project setup
 ```
 npm install
@@ -19,6 +22,3 @@ npm run build
 ```
 npm run lint
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
