@@ -1,23 +1,22 @@
 <template>
   <div class="barchart-container">
     <div
-      v-for="(value, i) of values"
+      v-for="value of getIdAndStyle"
       class="barchart-container__bar"
-      v-bind:key="i"
-      :style="barStyle(value)"
+      :key="value.id"
+      :style="value.style"
     ></div>
   </div>
 </template>
 
 <script>
+import { nanoid } from "nanoid";
+
 export default {
   /**
    * Vertical bar chart
-    */
+   */
   props: {
-    /**
-     * 
-     */
     values: {
       type: Array,
     },
@@ -29,13 +28,34 @@ export default {
       type: Number,
       default: 1,
     },
+    heightLimit: {
+      type: Number,
+      default: 400,
+    },
   },
-  methods: {
-    barStyle(value) {
-      return `
-        height: ${value*this.scale}px;
-        width: ${this.width}px
-      `;
+  computed: {
+    /**
+     * Returns array of unique IDs and computed styles for each bar
+     */
+    getIdAndStyle() {
+      if (!this.values || this.values.length === 0) return [];
+
+      const maxHeight = this.scale * Math.max(...this.values);
+      const limitingScale =
+        maxHeight > this.heightLimit ? this.heightLimit / maxHeight : 1;
+
+      return this.values.map((value) => {
+        const height = value * limitingScale;
+        const style = `
+          height: ${height}px;
+          width: ${this.width}px
+        `;
+        
+        return {
+          id: nanoid(5),
+          style,
+        };
+      });
     },
   },
 };
@@ -45,7 +65,7 @@ export default {
 .barchart-container {
   display: flex;
   align-items: flex-end;
-  margin: 5px;
+  margin: 7px 0px;
 }
 .barchart-container__bar {
   margin: 0px 5px;
