@@ -30,7 +30,7 @@ export default {
     },
     heightLimit: {
       type: Number,
-      default: 400,
+      default: 200,
     },
   },
   computed: {
@@ -45,12 +45,12 @@ export default {
         maxHeight > this.heightLimit ? this.heightLimit / maxHeight : 1;
 
       return this.values.map((value) => {
-        const height = value * limitingScale;
+        const height = value * this.scale * limitingScale;
         const style = `
           height: ${height}px;
           width: ${this.width}px
         `;
-        
+
         return {
           id: nanoid(5),
           style,
